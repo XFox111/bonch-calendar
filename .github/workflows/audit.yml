@@ -1,0 +1,88 @@
+name: "Audit pipeline"
+
+on:
+  push:
+    branches: [ "main" ]
+    paths-ignore:
+      - '.devcontainer/*'
+      - '.github/*'
+      - '!.github/workflows/audit.yml'
+      - '.vscode/*'
+      - '**.md'
+      - 'LICENSE'
+      - 'assets/*'
+  pull_request:
+    branches: [ "main" ]
+    paths-ignore:
+      - '.devcontainer/*'
+      - '.github/*'
+      - '!.github/workflows/audit.yml'
+      - '.vscode/*'
+      - '**.md'
+      - 'LICENSE'
+      - 'assets/*'
+  workflow_dispatch:
+
+permissions:
+  packages: write
+
+jobs:
+  api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./api
+          tags: ${{ github.repository }}-api:ci
+
+      - run: docker save ${{ github.repository }}:ci | gzip > api_image.tar.gz
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: api-image
+          path: api_image.tar.gz
+
+  app:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./app
+          tags: ${{ github.repository }}-app:ci
+
+      - run: docker save ${{ github.repository }}:ci | gzip > app_image.tar.gz
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: app-image
+          path: app_image.tar.gz
+
+  app_audit:
+    runs-on: ubuntu-latest
+    container: node:latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - run: npm install
+        working-directory: ./app
+
+      - run: npm run lint
+        working-directory: ./app
+
+      - run: npm audit --audit-level=moderate
+        working-directory: ./app
+
+      - run: npm audit --audit-level=moderate --json > audit_report.json
+        working-directory: ./app
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: app-audit-report
+          path: ./app/audit_report.json

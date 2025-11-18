@@ -1,0 +1,23 @@
+@Host = http://localhost:8080
+
+GET {{Host}}/health
+Accept: application/json
+
+###
+
+GET {{Host}}/faculties
+Accept: application/json
+
+###
+
+GET {{Host}}/groups
+	?facultyId=56682
+	&course=2
+Accept: application/json
+
+###
+
+@groupId = 56606
+@facultyId = 50029
+GET {{Host}}/timetable/{{facultyId}}/{{groupId}}
+Accept: text/calendar

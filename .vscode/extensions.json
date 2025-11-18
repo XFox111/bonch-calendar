@@ -1,0 +1,15 @@
+{
+	"recommendations": [
+		"bierner.github-markdown-preview",
+		"github.vscode-github-actions",
+		"GitHub.vscode-pull-request-github",
+		"Gruntfuggly.todo-tree",
+		"ms-dotnettools.csdevkit",
+		"patcx.vscode-nuget-gallery",
+		"saeris.markdown-github-alerts",
+		"dbaeumer.vscode-eslint",
+		"jock.svg",
+		"ms-azuretools.vscode-docker",
+		"humao.rest-client"
+	]
+}

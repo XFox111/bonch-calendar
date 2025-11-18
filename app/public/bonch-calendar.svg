@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100%" height="100%" viewBox="0 0 2048 2048" version="1.1" xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
+	style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+	<g id="Bonch" serif:id="Bonch">
+		<g transform="matrix(20.48,0,0,20.48,-7359.8976,-1024)">
+			<path
+				d="M424.82,150C436.27,137.11 444,116.54 444,100.77C444,90 440.87,70.55 424.82,50L422.77,51C432.28,67.33 433.71,81.44 433.71,100.77C433.71,104.66 433.92,133.23 422.98,148.77L424.82,150Z"
+				style="fill:rgb(246,139,31);fill-rule:nonzero;" />
+			<path
+				d="M398.82,142.19C408.48,131.31 415,114 415,100.65C415,91.56 412.32,75.15 398.78,57.81L397.06,58.66C405.06,72.44 406.29,84.34 406.29,100.66C406.29,103.94 406.46,128.04 397.23,141.17L398.82,142.19Z"
+				style="fill:rgb(246,139,31);fill-rule:nonzero;" />
+			<path
+				d="M376.15,134.37C384.02,125.52 389.36,111.37 389.36,100.53C389.36,93.12 387.18,79.75 376.15,65.63L374.74,66.31C381.28,77.54 382.26,87.24 382.26,100.53C382.26,103.2 382.4,122.84 374.88,133.53L376.15,134.37Z"
+				style="fill:rgb(246,139,31);fill-rule:nonzero;" />
+		</g>
+	</g>
+</svg>

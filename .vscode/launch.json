@@ -1,0 +1,25 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": ".NET Core Attach",
+			"type": "coreclr",
+			"request": "attach"
+		},
+		{
+			"name": "API: Launch BonchCalendar",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "api: build",
+			"program": "${workspaceFolder}/api/bin/Debug/net10.0/BonchCalendar.dll",
+			"cwd": "${workspaceFolder}/api",
+			"stopAtEntry": false,
+			"console": "internalConsole",
+			"suppressJITOptimizations": true,
+			"env": {
+				"ASPNETCORE_ENVIRONMENT": "Development",
+				"ASPNETCORE_URLS": "http://localhost:8080"
+			}
+		}
+	]
+}

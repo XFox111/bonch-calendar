@@ -1,0 +1,19 @@
+{
+	"editor.rulers": [
+		{
+			"column": 120
+		}
+	],
+	"editor.insertSpaces": false,
+	"files.insertFinalNewline": true,
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": "always"
+	},
+	"files.eol": "\n",
+	"files.trimFinalNewlines": true,
+	"files.trimTrailingWhitespace": true,
+	"todo-tree.filtering.excludeGlobs": [
+		"**/node_modules/*/**",
+		"README.md"
+	]
+}

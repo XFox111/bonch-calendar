@@ -1,0 +1,18 @@
+services:
+  api:
+    image: xfox111/bonch-calendar-api:latest
+    build:
+      context: ./api
+    ports:
+      - 8080:8080
+
+  app:
+    image: xfox111/bonch-calendar-app:latest
+    build:
+      context: ./app
+      args:
+        - API_HOST=http://localhost:8080
+    ports:
+      - 8000:80
+    depends_on:
+      - api

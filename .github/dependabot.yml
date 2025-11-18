@@ -1,0 +1,81 @@
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+# yaml-language-server: $schema=https://json.schemastore.org/dependabot-2.0.json
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/app"
+    target-branch: "main"
+    assignees:
+      - "XFox111"
+    schedule:
+      interval: monthly
+    rebase-strategy: disabled
+    groups:
+      deps:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+        update-types:
+          - minor
+          - patch
+      react-next:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+        update-types:
+          - major
+
+  - package-ecosystem: "nuget" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    target-branch: "main"
+    assignees:
+      - "XFox111"
+    schedule:
+      interval: monthly
+    rebase-strategy: disabled
+    open-pull-requests-limit: 20
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "main"
+    assignees:
+      - "XFox111"
+    schedule:
+      interval: monthly
+    rebase-strategy: disabled
+    open-pull-requests-limit: 20
+
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    target-branch: "main"
+    assignees:
+      - "XFox111"
+    schedule:
+      interval: monthly
+    rebase-strategy: disabled
+    open-pull-requests-limit: 20
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    target-branch: "main"
+    assignees:
+      - "XFox111"
+    schedule:
+      interval: monthly
+    rebase-strategy: disabled
+    open-pull-requests-limit: 20

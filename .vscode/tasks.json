@@ -1,0 +1,148 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "api: build",
+			"command": "dotnet",
+			"type": "process",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}/api"
+			},
+			"args": [
+				"build",
+				"BonchCalendar.sln",
+				"/property:GenerateFullPaths=true",
+				"/consoleloggerparameters:NoSummary;ForceNoAlign"
+			],
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "api: publish",
+			"command": "dotnet",
+			"type": "process",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}/api"
+			},
+			"args": [
+				"publish",
+				"BonchCalendar.sln",
+				"/property:GenerateFullPaths=true",
+				"/consoleloggerparameters:NoSummary;ForceNoAlign"
+			],
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "api: watch",
+			"command": "dotnet",
+			"type": "process",
+			"group": "test",
+			"options": {
+				"cwd": "${workspaceFolder}/api"
+			},
+			"args": [
+				"watch",
+				"run",
+				"--project",
+				"BonchCalendar.sln"
+			],
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "app: install",
+			"type": "npm",
+			"script": "install",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}/app"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "app: build",
+			"type": "npm",
+			"script": "build",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}/app"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "app: dev",
+			"type": "npm",
+			"script": "dev",
+			"group": "test",
+			"options": {
+				"cwd": "${workspaceFolder}/app"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "app: lint",
+			"type": "npm",
+			"script": "lint",
+			"options": {
+				"cwd": "${workspaceFolder}/app"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "app: preview",
+			"type": "npm",
+			"script": "preview",
+			"group": "test",
+			"options": {
+				"cwd": "${workspaceFolder}/app"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "docker: build (app)",
+			"type": "process",
+			"command": "docker",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}/app"
+			},
+			"args": [
+				"build",
+				"-t xfox111/bonch-calendar-app:latest",
+				"."
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "docker: build (api)",
+			"type": "process",
+			"command": "docker",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}/api"
+			},
+			"args": [
+				"build",
+				"-t xfox111/bonch-calendar-api:latest",
+				"."
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "docker: compose up",
+			"type": "process",
+			"command": "docker",
+			"group": "test",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"args": [
+				"compose",
+				"up",
+				"--build",
+				"--force-recreate"
+			],
+			"problemMatcher": []
+		},
+	]
+}
