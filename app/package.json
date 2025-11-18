@@ -11,7 +11,7 @@
 	},
 	"dependencies": {
 		"@fluentui/react-components": "^9.72.7",
-		"@fluentui/react-icons": "^2.0.314",
+		"@fluentui/react-icons": "^2.0.315",
 		"@fluentui/react-motion-components-preview": "^0.14.1",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
@@ -28,7 +28,7 @@
 		"eslint-plugin-react-refresh": "^0.4.24",
 		"globals": "^16.5.0",
 		"typescript": "~5.9.3",
-		"typescript-eslint": "^8.46.3",
+		"typescript-eslint": "^8.47.0",
 		"vite": "^7.2.2"
 	}
 }
