@@ -41,7 +41,7 @@ updates:
           - major
 
   - package-ecosystem: "nuget" # See documentation for possible values
-    directory: "/" # Location of package manifests
+    directory: "/api" # Location of package manifests
     target-branch: "main"
     assignees:
       - "XFox111"
@@ -71,7 +71,9 @@ updates:
     open-pull-requests-limit: 20
 
   - package-ecosystem: "docker"
-    directory: "/"
+    directories:
+      - "/app"
+      - "/api"
     target-branch: "main"
     assignees:
       - "XFox111"
