@@ -65,7 +65,7 @@ public partial class ParsingService
 		{
 			var (className, classType, professors, auditorium) = ParseBaseInfo(classItem);
 
-			DateTime classDate = DateTime.Parse(classItem.Children[0].ChildNodes[0].TextContent, CultureInfo.GetCultureInfo("ru-RU"));
+			DateTime classDate = DateTime.ParseExact(classItem.Children[0].ChildNodes[0].TextContent, "dd.MM.yyyy", CultureInfo.InvariantCulture);
 			Match timeMatch = ParserUtils.ExamTimeRegex().Match(classItem.GetAttribute("pair")!);
 
 			if (!timeMatch.Success)
