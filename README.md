@@ -14,7 +14,7 @@ This is my farewell gift to the university.
 
 ## Demo
 
-<!-- TODO: put demo here -->
+![Demo](/assets/demo.gif)
 
 ## Q&A
 
