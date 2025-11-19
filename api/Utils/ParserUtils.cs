@@ -40,7 +40,7 @@ public static partial class ParserUtils
 	[GeneratedRegex(@"^(?<room>\d+),\sпр\.Большевиков,22,к\.(?<wing>\d)$")]
 	public static partial Regex AuditoriumAltRegex();
 
-	[GeneratedRegex(@"^(?<number>\d)\s\((?<start>\d+\.\d+)-(?<end>\d+\.\d+)\)$")]
+	[GeneratedRegex(@"^(?<number>\d+)\s\((?<start>\d+\.\d+)-(?<end>\d+\.\d+)\)$")]
 	public static partial Regex ExamTimeRegex();
 
 	[GeneratedRegex(@"^(?<start>\d+:\d+)-(?<end>\d+:\d+)$")]
