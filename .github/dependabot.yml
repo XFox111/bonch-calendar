@@ -48,7 +48,10 @@ updates:
     schedule:
       interval: monthly
     rebase-strategy: disabled
-    open-pull-requests-limit: 20
+    groups:
+      all:
+        patterns:
+          - "*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -58,7 +61,10 @@ updates:
     schedule:
       interval: monthly
     rebase-strategy: disabled
-    open-pull-requests-limit: 20
+    groups:
+      all:
+        patterns:
+          - "*"
 
   - package-ecosystem: "devcontainers"
     directory: "/"
@@ -68,7 +74,10 @@ updates:
     schedule:
       interval: monthly
     rebase-strategy: disabled
-    open-pull-requests-limit: 20
+    groups:
+      all:
+        patterns:
+          - "*"
 
   - package-ecosystem: "docker"
     directories:
@@ -80,4 +89,7 @@ updates:
     schedule:
       interval: monthly
     rebase-strategy: disabled
-    open-pull-requests-limit: 20
+    groups:
+      all:
+        patterns:
+          - "*"
