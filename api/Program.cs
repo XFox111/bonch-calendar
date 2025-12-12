@@ -97,30 +97,38 @@ app.MapGet("/timetable/{facultyId}/{groupId}", async (
 		}
 	}
 
-	DateTime semesterStartDate = await apiService.GetSemesterStartDateAsync(groupId);
-	string groupName = (await apiService.GetGroupsListAsync(facultyId, 0))[groupId];
-
-	string classesRaw = await apiService.GetScheduleDocumentAsync(groupId, TimetableType.Classes);
-	List<CalendarEvent> timetable = [.. parsingService.ParseGeneralTimetable(classesRaw, semesterStartDate, groupName)];
-
-	TimetableType[] types = [TimetableType.Attestations, TimetableType.Exams, TimetableType.ExamsForExtramural];
-	foreach (TimetableType type in types)
+	try
 	{
-		classesRaw = await apiService.GetScheduleDocumentAsync(groupId, type);
-		timetable.AddRange(parsingService.ParseExamTimetable(classesRaw, groupName));
+		DateTime semesterStartDate = await apiService.GetSemesterStartDateAsync(groupId);
+		string groupName = (await apiService.GetGroupsListAsync(facultyId, 0))[groupId];
+
+		string classesRaw = await apiService.GetScheduleDocumentAsync(groupId, TimetableType.Classes);
+		List<CalendarEvent> timetable = [.. parsingService.ParseGeneralTimetable(classesRaw, semesterStartDate, groupName)];
+
+		TimetableType[] types = [TimetableType.Attestations, TimetableType.Exams, TimetableType.ExamsForExtramural];
+		foreach (TimetableType type in types)
+		{
+			classesRaw = await apiService.GetScheduleDocumentAsync(groupId, type);
+			timetable.AddRange(parsingService.ParseExamTimetable(classesRaw, groupName));
+		}
+
+		Calendar calendar = new();
+		calendar.Properties.Add(new CalendarProperty("X-WR-CALNAME", groupName));
+		calendar.Properties.Add(new CalendarProperty("X-WR-TIMEZONE", "Europe/Moscow"));
+		calendar.Properties.Add(new CalendarProperty("REFRESH-INTERVAL;VALUE=DURATION", "PT6H"));
+		calendar.Events.AddRange(timetable);
+		calendar.AddTimeZone(new VTimeZone("Europe/Moscow"));
+		string serialized = new CalendarSerializer().SerializeToString(calendar)!;
+
+		await File.WriteAllTextAsync(cacheFile, serialized);
+		logger.LogInformation("Cached timetable for group {GroupId} to {CacheFile}.", groupId, cacheFile);
+		return Results.Text(serialized, contentType: "text/calendar");
 	}
-
-	Calendar calendar = new();
-	calendar.Properties.Add(new CalendarProperty("X-WR-CALNAME", groupName));
-	calendar.Properties.Add(new CalendarProperty("X-WR-TIMEZONE", "Europe/Moscow"));
-	calendar.Properties.Add(new CalendarProperty("REFRESH-INTERVAL;VALUE=DURATION", "PT6H"));
-	calendar.Events.AddRange(timetable);
-	calendar.AddTimeZone(new VTimeZone("Europe/Moscow"));
-	string serialized = new CalendarSerializer().SerializeToString(calendar)!;
-
-	await File.WriteAllTextAsync(cacheFile, serialized);
-	logger.LogInformation("Cached timetable for group {GroupId} to {CacheFile}.", groupId, cacheFile);
-	return Results.Text(serialized, contentType: "text/calendar");
+	catch (Exception ex)
+	{
+		logger.LogError(ex, "Failed to generate timetable for group {GroupId} of faculty {FacultyId}.", groupId, facultyId);
+		throw;
+	}
 })
 	.WithName("GetTimetable")
 	.WithDescription("Gets the iCal timetable for the specified group.")
