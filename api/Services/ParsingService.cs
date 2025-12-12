@@ -123,15 +123,15 @@ public partial class ParsingService
 
 	private static (string className, string classType, string[] professors, string auditorium) ParseBaseInfo(IElement classElement)
 	{
-		string className = classElement.QuerySelector(".subect")!.TextContent;
-		string classType = classElement.QuerySelector(".type")!.TextContent
-			.Replace("(", string.Empty).Replace(")", string.Empty).Trim();
+		string className = classElement.QuerySelector(".subect")?.TextContent ?? string.Empty;
+		string classType = classElement.QuerySelector(".type")?.TextContent
+			.Replace("(", string.Empty).Replace(")", string.Empty).Trim() ?? string.Empty;
 
-		string[] professors = classElement.QuerySelector(".teacher[title]")!.GetAttribute("title")
-				!.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+		string[] professors = classElement.QuerySelector(".teacher[title]")?.GetAttribute("title")
+				?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) ?? [];
 
-		string auditorium = classElement.QuerySelector(".aud")!.TextContent
-			.Replace("ауд.:", string.Empty).Replace(';', ',').Trim();
+		string auditorium = classElement.QuerySelector(".aud")?.TextContent
+			.Replace("ауд.:", string.Empty).Replace(';', ',').Trim() ?? string.Empty;
 
 		return (className, classType, professors, auditorium);
 	}
