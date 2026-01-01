@@ -40,7 +40,7 @@ jobs:
 
       - run: docker save ${{ github.repository }}:ci | gzip > api_image.tar.gz
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: api-image
           path: api_image.tar.gz
@@ -58,7 +58,7 @@ jobs:
 
       - run: docker save ${{ github.repository }}:ci | gzip > app_image.tar.gz
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: app-image
           path: app_image.tar.gz
@@ -82,7 +82,7 @@ jobs:
       - run: npm audit --audit-level=moderate --json > audit_report.json
         working-directory: ./app
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: app-audit-report
           path: ./app/audit_report.json
