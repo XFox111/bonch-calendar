@@ -13,8 +13,8 @@
 		"@fluentui/react-components": "^9.72.8",
 		"@fluentui/react-icons": "^2.0.316",
 		"@fluentui/react-motion-components-preview": "^0.14.1",
-		"react": "^19.2.1",
-		"react-dom": "^19.2.1",
+		"react": "^19.2.3",
+		"react-dom": "^19.2.3",
 		"react-localization": "^2.0.6"
 	},
 	"devDependencies": {
