@@ -33,14 +33,14 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         with:
           context: ./api
           tags: ${{ github.repository }}-api:ci
 
       - run: docker save ${{ github.repository }}:ci | gzip > api_image.tar.gz
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: api-image
           path: api_image.tar.gz
@@ -51,14 +51,14 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         with:
           context: ./app
           tags: ${{ github.repository }}-app:ci
 
       - run: docker save ${{ github.repository }}:ci | gzip > app_image.tar.gz
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: app-image
           path: app_image.tar.gz
@@ -82,7 +82,7 @@ jobs:
       - run: npm audit --audit-level=moderate --json > audit_report.json
         working-directory: ./app
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: app-audit-report
           path: ./app/audit_report.json
