@@ -13,14 +13,14 @@
 		"@fluentui/react-components": "^9.73.8",
 		"@fluentui/react-icons": "^2.0.325",
 		"@fluentui/react-motion-components-preview": "^0.15.4",
-		"react": "^19.2.3",
-		"react-dom": "^19.2.3",
+		"react": "^19.2.6",
+		"react-dom": "^19.2.6",
 		"react-localization": "^2.0.6"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
 		"@types/node": "^25.6.0",
-		"@types/react": "^19.2.7",
+		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react": "^6.0.1",
 		"eslint": "^10.2.1",
