@@ -12,4 +12,8 @@ WORKDIR /app
 
 COPY --from=build /out/* .
 
+EXPOSE 8080
+HEALTHCHECK --interval=60s --retries=3 --start-period=5s --timeout=10s \
+	CMD wget --no-verbose --tries 1 --spider http://localhost:8080/health || exit 1
+
 ENTRYPOINT [ "dotnet", "BonchCalendar.dll" ]
