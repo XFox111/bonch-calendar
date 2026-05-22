@@ -16,6 +16,7 @@ const baseTheme: Partial<Theme> =
 	colorBrandBackground: "#f68b1f",
 	colorBrandBackgroundHover: "#c36e18",
 	colorNeutralForeground2BrandHover: "#c36e18",
+	colorNeutralForeground2BrandPressed: "#a95f15",
 	colorBrandBackgroundPressed: "#a95f15",
 	colorCompoundBrandStroke: "#f68b1f",
 	colorCompoundBrandStrokePressed: "#a95f15"

@@ -118,6 +118,8 @@ public partial class ParsingService
 			https://nav.sut.ru/?cab=k{auditoriumMatch.Groups["wing"].Value}-{auditoriumMatch.Groups["room"].Value}
 			""";
 
+		str += "\n\n" + "Создано при помощи сервиса Бонч.Календарь: https://bonch.xfox111.net";
+
 		return str;
 	}
 

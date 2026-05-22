@@ -8,8 +8,9 @@ import useTimeout from "../hooks/useTimeout";
 import useStyles_MainView from "./MainView.styles";
 import { fetchFaculties, fetchGroups } from "../utils/api";
 import strings from "../utils/strings";
+import { v7 as uuid7 } from "uuid";
 
-const facultiesPromise = fetchFaculties();
+const facultiesPromise = fetchFaculties().then(Object.entries);
 
 const getEntryOrEmpty = (entries: [string, string][], key: string): string =>
 	entries.find(i => i[0] === key)?.[1] ?? "";
@@ -25,6 +26,7 @@ export default function MainView(): ReactElement
 	const [groups, setGroups] = useState<[string, string][] | null>(null);
 	const [groupId, setGroupId] = useState<string>("");
 
+	const id = uuid7();
 	const icalUrl = useMemo(() => `${import.meta.env.VITE_BACKEND_HOST}/timetable/${facultyId}/${groupId}`, [groupId, facultyId]);
 
 	const [showCta, setShowCta] = useState<boolean>(false);
@@ -35,10 +37,10 @@ export default function MainView(): ReactElement
 
 	const copyLink = useCallback((): void =>
 	{
-		navigator.clipboard.writeText(icalUrl);
+		navigator.clipboard.writeText(icalUrl + "?id=" + id);
 		triggerCopy();
 		setShowCta(true);
-	}, [icalUrl, triggerCopy]);
+	}, [icalUrl, triggerCopy, id]);
 
 	const onFacultySelect = useCallback((_: SelectionEvents, data: OptionOnSelectData): void =>
 	{
@@ -59,7 +61,7 @@ export default function MainView(): ReactElement
 		setCourse(courseNumber);
 		setGroupId("");
 		setGroups(null);
-		fetchGroups(facultyId, courseNumber).then(setGroups);
+		fetchGroups(facultyId, courseNumber).then(Object.entries).then(setGroups);
 	}, [course, facultyId]);
 
 	return (
@@ -144,7 +146,7 @@ export default function MainView(): ReactElement
 									: <Copy24Regular className={ cls.copyIcon } />
 								}>
 
-								<span className={ cls.truncatedText }>{ icalUrl }</span>
+								<span className={ cls.truncatedText }>{ icalUrl + "?id=" + id }</span>
 							</Button>
 						</div>
 					</Slide>
@@ -155,7 +157,7 @@ export default function MainView(): ReactElement
 								appearance="subtle" icon={ <ArrowDownload24Regular /> }
 								onClick={ () => setShowCta(true) }
 								disabled={ groupId === "" }
-								href={ icalUrl }>
+								href={ icalUrl + "?id=download" }>
 
 								{ strings.download }
 							</Button>

@@ -8,7 +8,7 @@ const useStyles_MainView = makeStyles({
 		flexFlow: "column",
 		gap: tokens.spacingVerticalXXXL,
 		justifyContent: "center",
-		minHeight: "90vh",
+		minHeight: "85vh",
 		alignItems: "center",
 		padding: `${tokens.spacingVerticalL} ${tokens.spacingHorizontalL}`,
 

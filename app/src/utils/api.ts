@@ -1,11 +1,64 @@
-export const fetchFaculties = async (): Promise<[string, string][]> =>
-{
-	const res = await fetch(import.meta.env.VITE_BACKEND_HOST + "/faculties");
-	return Object.entries(await res.json());
-};
+const timeout: number = 5000;
 
-export const fetchGroups = async (facultyId: string, course: number): Promise<[string, string][]> =>
+export const fetchFaculties = (): Promise<Record<string, string>> =>
+	fetchApi("/faculties", {});
+
+export const fetchGroups = (facultyId: string, year: number): Promise<Record<string, string>> =>
+	fetchApi(`/groups?facultyId=${facultyId}&year=${year}`, {});
+
+export const fetchStats = async (): Promise<StatsResponse> =>
+	fetchApi("/stats", {
+		activeUsers: 0
+	});
+
+export const fetchHealth = async (): Promise<HealthResponse> =>
+	fetchApi("/health", {} as HealthResponse, true);
+
+async function fetchApi<T>(path: string, defaultValue: T, alwaysReturnResponse: boolean = false): Promise<T>
 {
-	const res = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/groups?facultyId=${facultyId}&course=${course}`);
-	return Object.entries(await res.json());
-};
+	try
+	{
+		const res = await fetch(import.meta.env.VITE_BACKEND_HOST + path, {
+			signal: AbortSignal.timeout(timeout)
+		});
+
+		if (!res.ok && !alwaysReturnResponse)
+			return defaultValue;
+
+		return await res.json()
+	}
+	catch
+	{
+		return defaultValue;
+	}
+}
+
+export type StatsResponse =
+	{
+		activeUsers: number;
+	};
+
+export type HealthResponse =
+	{
+		status: ServiceStatus;
+		totalDuration: string;
+		entries: {
+			["timetable_website"]: TimetableHealth;
+		};
+	};
+
+export type ServiceStatus = "Healthy" | "Unhealthy" | "Degraded";
+
+export type TimetableHealth =
+	{
+		description?: string;
+		duration: string;
+		status: "Healthy" | "Unhealthy",
+		tags: unknown[],
+		data:
+		{
+			"/faculties"?: false,
+			"/groups"?: string[],
+			"/timetable"?: string[];
+		};
+	};

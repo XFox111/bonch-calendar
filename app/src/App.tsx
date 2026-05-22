@@ -5,6 +5,7 @@ import MainView from "./views/MainView";
 import FaqView from "./views/FaqView";
 import DedicatedView from "./views/DedicatedView";
 import FooterView from "./views/FooterView";
+import StatsView from "./views/StatsView";
 
 export default function App(): ReactElement
 {
@@ -15,6 +16,7 @@ export default function App(): ReactElement
 		<FluentProvider theme={ theme }>
 			<main className={ cls.root }>
 				<MainView />
+				<StatsView />
 				<FaqView />
 				<DedicatedView />
 				<FooterView />

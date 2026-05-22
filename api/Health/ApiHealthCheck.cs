@@ -3,24 +3,17 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace BonchCalendar.Health;
 
-public class ApiHealthCheck(ApiService groupService) : IHealthCheck
+public class ApiHealthCheck(IssueTrackingService trackingService) : IHealthCheck
 {
 	public async Task<HealthCheckResult> CheckHealthAsync(
 		HealthCheckContext context, CancellationToken cancellationToken = default
 	)
 	{
-		try
-		{
-			Dictionary<int, string> faculties = await groupService.GetFacultiesListAsync();
+		Dictionary<string, object> report = trackingService.GetReport();
 
-			if (faculties.Count > 0)
-				return HealthCheckResult.Healthy();
+		if (report.Count > 0)
+			return HealthCheckResult.Unhealthy(description: "We're having issues with fetching data from the timetable website.", data: report);
 
-			return HealthCheckResult.Degraded(description: "Timetable website looks to be up, but returned an empty list of faculties.");
-		}
-		catch (Exception ex)
-		{
-			return HealthCheckResult.Unhealthy(description: "Timetable website appears to be down.", exception: ex);
-		}
+		return HealthCheckResult.Healthy();
 	}
 }

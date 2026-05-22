@@ -5,6 +5,11 @@ Accept: application/json
 
 ###
 
+GET {{Host}}/stats
+Accept: application/json
+
+###
+
 GET {{Host}}/faculties
 Accept: application/json
 
@@ -12,12 +17,20 @@ Accept: application/json
 
 GET {{Host}}/groups
 	?facultyId=56682
-	&course=2
+	&year=2
 Accept: application/json
 
 ###
 
 @groupId = 56606
 @facultyId = 50029
+# See remark for id
+@id = download
 GET {{Host}}/timetable/{{facultyId}}/{{groupId}}
+	?id={{id}}
 Accept: text/calendar
+
+# id parameter changes behavior for the calendar:
+# - If not present, an additional event will be appended to the calendar (see Program.cs)
+# - If set to "download", nothing will happen
+# - If set to any other value, this request will be counted in active users stats (only once per ID until the next restart)
