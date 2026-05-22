@@ -99,6 +99,7 @@ export default function MainView(): ReactElement
 								<Button key={ i }
 									className={ cls.courseButton }
 									appearance={ course === i ? "primary" : "secondary" }
+									disabled={ facultyId === "" }
 									onClick={ () => onCourseSelect(i) }>
 
 									{ i }
@@ -114,6 +115,7 @@ export default function MainView(): ReactElement
 							className={ cls.field }
 							positioning={ { pinned: true, position: "below" } }
 							value={ getEntryOrEmpty(groups ?? [], groupId) }
+							disabled={ course === 0 || groups === null }
 							onOptionSelect={ (_, e) => setGroupId(e.optionValue!) }>
 
 							{ groups?.map(([id, name]) =>
@@ -136,6 +138,7 @@ export default function MainView(): ReactElement
 								className={ mergeClasses(cls.field, copyActive && cls.copiedStyle) }
 								iconPosition="after"
 								title={ strings.copy }
+								disabled={ groupId === "" }
 								icon={ copyActive
 									? <Checkmark24Regular className={ cls.copyIcon } />
 									: <Copy24Regular className={ cls.copyIcon } />
@@ -151,6 +154,7 @@ export default function MainView(): ReactElement
 							<Button as="a"
 								appearance="subtle" icon={ <ArrowDownload24Regular /> }
 								onClick={ () => setShowCta(true) }
+								disabled={ groupId === "" }
 								href={ icalUrl }>
 
 								{ strings.download }
