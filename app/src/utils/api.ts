@@ -25,7 +25,7 @@ async function fetchApi<T>(path: string, defaultValue: T, alwaysReturnResponse: 
 		if (!res.ok && !alwaysReturnResponse)
 			return defaultValue;
 
-		return await res.json()
+		return await res.json();
 	}
 	catch
 	{
@@ -40,21 +40,20 @@ export type StatsResponse =
 
 export type HealthResponse =
 	{
-		status: ServiceStatus;
+		status: HealthStatus;
 		totalDuration: string;
 		entries: {
-			["timetable_website"]: TimetableHealth;
+			["timetable_website"]: TimetableHealthResponseEntry;
 		};
 	};
 
-export type ServiceStatus = "Healthy" | "Unhealthy" | "Degraded";
+export type HealthStatus = "healthy" | "unhealthy" | "degraded";
 
-export type TimetableHealth =
+export type TimetableHealthResponseEntry =
 	{
+		status: HealthStatus;
 		description?: string;
 		duration: string;
-		status: "Healthy" | "Unhealthy",
-		tags: unknown[],
 		data:
 		{
 			"/faculties"?: false,

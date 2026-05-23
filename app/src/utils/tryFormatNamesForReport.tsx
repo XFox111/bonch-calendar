@@ -1,12 +1,12 @@
-import { type TimetableHealth, fetchFaculties, fetchGroups } from "./api";
+import { type TimetableHealthResponseEntry, fetchFaculties, fetchGroups } from "./api";
 import strings from "./strings";
 
-export async function tryFormatNamesForReport(report?: TimetableHealth): Promise<TimetableHealth | undefined>
+export async function tryFormatNamesForReport(report?: TimetableHealthResponseEntry): Promise<TimetableHealthResponseEntry | undefined>
 {
 	if (report === undefined)
 		return report;
 
-	if (report.status === "Healthy")
+	if (report.status === "healthy")
 		return report;
 
 	const isGroupsDown: boolean = report.data["/groups"] !== undefined;

@@ -1,19 +1,21 @@
-FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine-aot AS build
 WORKDIR /build
 
-ADD *.csproj .
-RUN dotnet restore
+ADD --link . .
+RUN --mount=type=cache,target=/root/.nuget \
+	--mount=type=cache,target=/source/bin \
+	--mount=type=cache,target=/source/obj \
+	dotnet publish --output /out /p:PublishAot=true BonchCalendar.csproj \
+	&& rm /out/*.dbg /out/*.Development.json
 
-ADD . ./
-RUN dotnet publish --no-restore --configuration Release --output /out
-
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS prod
+FROM mcr.microsoft.com/dotnet/runtime-deps:10.0-alpine AS prod
 WORKDIR /app
 
-COPY --from=build /out/* .
+COPY --link --from=build /out/* .
+USER $APP_UID
 
-EXPOSE 8080
 HEALTHCHECK --interval=60s --retries=3 --start-period=5s --timeout=10s \
 	CMD wget --no-verbose --tries 1 --spider http://localhost:8080/health || exit 1
 
-ENTRYPOINT [ "dotnet", "BonchCalendar.dll" ]
+EXPOSE 8080
+ENTRYPOINT [ "./BonchCalendar" ]

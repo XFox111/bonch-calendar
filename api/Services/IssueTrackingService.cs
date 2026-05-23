@@ -45,10 +45,10 @@ public class IssueTrackingService
 			report.Add("/faculties", false);
 
 		if (_unsuccessfulGroupFetches.Count > 0)
-			report.Add("/groups", _unsuccessfulGroupFetches);
+			report.Add("/groups", _unsuccessfulGroupFetches.ToArray());
 
 		if (_unsuccessfulTimetableFetches.Count > 0)
-			report.Add("/timetable", _unsuccessfulTimetableFetches);
+			report.Add("/timetable", _unsuccessfulTimetableFetches.ToArray());
 
 		return report;
 	}

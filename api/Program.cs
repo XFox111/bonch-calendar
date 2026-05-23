@@ -4,12 +4,15 @@ using BonchCalendar;
 using BonchCalendar.Health;
 using BonchCalendar.Services;
 using BonchCalendar.Utils;
-using HealthChecks.UI.Client;
 using Ical.Net.DataTypes;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateSlimBuilder(args);
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+	options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default)
+);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -51,7 +54,7 @@ app.MapOpenApi();
 
 app.MapHealthChecks("/health", new HealthCheckOptions
 {
-	ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+	ResponseWriter = HealthCheckWriter.WriteHealthCheckResponse
 });
 
 ILogger<Program> logger = app.Services.GetRequiredService<ILogger<Program>>();
@@ -134,6 +137,8 @@ app.MapGet("/timetable/{facultyId}/{groupId}", async (
 
 	try
 	{
+		logger.LogInformation("Begin generating timetable for {FacultyId}/{GroupId}.", facultyId, groupId);
+
 		if (hasId)
 			content = await timetableService.GetTimetableAsync(facultyId, groupId, saveToCache: true);
 		else

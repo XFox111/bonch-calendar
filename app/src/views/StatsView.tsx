@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogBody, DialogContent, DialogSurface, DialogTitle, DialogTrigger, Divider, Subtitle2 } from "@fluentui/react-components";
 import { ArrowTrendingLinesFilled, CheckmarkCircleFilled, Dismiss24Regular, WarningFilled } from "@fluentui/react-icons";
 import { use, useMemo, type ReactElement } from "react";
-import { fetchHealth, fetchStats, type StatsResponse, type TimetableHealth } from "../utils/api";
+import { fetchHealth, fetchStats, type StatsResponse, type TimetableHealthResponseEntry } from "../utils/api";
 import strings from "../utils/strings";
 import { tryFormatNamesForReport } from "../utils/tryFormatNamesForReport";
 import { useStyles } from "./StatsView.styles";
@@ -13,7 +13,7 @@ export default function StatsView(): ReactElement
 {
 	const cls = useStyles();
 
-	const health: TimetableHealth | undefined = use(healthPromise);
+	const health: TimetableHealthResponseEntry | undefined = use(healthPromise);
 	const stats: StatsResponse = use(statsPromise);
 
 	const issueCounter: number = useMemo(() =>
@@ -49,7 +49,7 @@ export default function StatsView(): ReactElement
 				}
 				<Dialog>
 					<DialogTrigger>
-						{ health?.status === "Healthy" ?
+						{ health?.status === "healthy" ?
 							<Button icon={ <CheckmarkCircleFilled className={ cls.statusIconHealthy } /> } appearance="subtle">
 								{ strings.status_ok }
 							</Button>
@@ -76,7 +76,7 @@ export default function StatsView(): ReactElement
 								{ strings.report_title }
 							</DialogTitle>
 							<DialogContent className={ cls.reportContent }>
-								{ health?.status === "Healthy" ?
+								{ health?.status === "healthy" ?
 									<div className={ cls.reportSubtitle }>
 										<CheckmarkCircleFilled className={ cls.statusIconHealthy } fontSize={ 24 } />
 										<Subtitle2>{ strings.report_subtitle_ok }</Subtitle2>
@@ -89,7 +89,7 @@ export default function StatsView(): ReactElement
 										</Subtitle2>
 									</div>
 								}
-								{ health?.status !== "Healthy" &&
+								{ health?.status !== "healthy" &&
 									<ul>
 										{ health === undefined &&
 											<li>{ strings.report_issue_backend }</li>
