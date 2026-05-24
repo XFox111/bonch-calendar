@@ -6,7 +6,7 @@ RUN --mount=type=cache,target=/root/.nuget \
 	--mount=type=cache,target=/source/bin \
 	--mount=type=cache,target=/source/obj \
 	dotnet publish --output /out BonchCalendar.csproj \
-	&& rm /out/*.dbg /out/*.Development.json
+	&& rm /out/*.dbg
 
 FROM mcr.microsoft.com/dotnet/runtime-deps:10.0-alpine AS prod
 WORKDIR /app
