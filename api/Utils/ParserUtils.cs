@@ -2,8 +2,20 @@ using System.Text.RegularExpressions;
 
 namespace BonchCalendar.Utils;
 
+/// <summary>
+/// Utility methods for timetable parser.
+/// </summary>
 public static partial class ParserUtils
 {
+	/// <summary>
+	/// Get class start and end times from class' number label.
+	/// </summary>
+	/// <param name="label">Class' number label.</param>
+	/// <returns>A tuple value of start and end times.</returns>
+	/// <remarks>
+	/// This method is only supposed to be used as a fallback method of determening class' time
+	/// </remarks>
+	/// <exception cref="NotImplementedException">Unknown label encountered.</exception>
 	public static (TimeSpan startTime, TimeSpan endTime) GetTimesFromLabel(string label)
 	{
 		(string startTime, string endTime) = label switch

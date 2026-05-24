@@ -1,0 +1,69 @@
+### This file contains exampels of HTTP requests to sut.ru API.
+# You can use them for reference and better understanding of what I have to deal with.
+# You can use a vscode extension (like REST Client) to make this file interactive.
+
+# Current semester "ID" (must be updated before sending requests)
+@schet=205.2526/2
+
+# Breakdown:
+# "205." part is static
+# "2526" represents current academic year (2025-2026 in this case)
+# "/2" represents current semester. Can be either "/1" (first semester) or "/2" (second semester)
+# When making requests this ID must always point to current semester, otherwise you may get a broken response.
+
+# Tip:
+# From August through January is considered to be the first semester
+# Other months (February-July) are considered to be the second semester
+
+###
+
+# Get list of faculties
+POST https://cabinet.sut.ru/raspisanie_all_new.php
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+choice=1&schet={{schet}}
+
+###
+
+# Get list of groups for faculty
+
+# Year filters out groups by the term year they are at.
+# Year should be an integer from 0 to 5, inclusive.
+# If year is set to 0, all groups for the chosen faculty will be received instead.
+
+@facultyId=50029
+@year=0
+POST https://cabinet.sut.ru/raspisanie_all_new.php
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+choice=1&schet={{schet}}&faculty={{facultyId}}&kurs={{year}}
+
+###
+
+# Get timetable for selected group
+
+# Type here can be on of the following:
+# 1 - for regular timetable (Занятия)
+# 2 - for exams timetable (Экзаменационная сессия)
+# 4 - for exams timetable for extramural students (Сессия для заочников)
+# 14 - for attestations timetable (Зачеты)
+
+@type=1
+@groupId=55512
+POST https://cabinet.sut.ru/raspisanie_all_new.php
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+schet={{schet}}&type_z={{type}}&group={{groupId}}
+
+###
+
+# Get page that contains current week number
+
+# We use this page because it's the only known page that contains publicly accessible semester week number.
+# Since regular timetable doesn't show normal dates for classes, and instead uses week numbers,
+# we need to know a date of the first day of current semester to calculate dates for them
+# (e.g. 3 week tuesday is = first day + 3 * 7 + 1)
+
+# Since we know current date and weekday, by knowing week number we can calculate date for the first day.
+
+GET https://www.sut.ru/studentu/raspisanie/raspisanie-zanyatiy-studentov-ochnoy-i-vecherney-form-obucheniya?group={{groupId}}

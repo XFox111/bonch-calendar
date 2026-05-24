@@ -3,6 +3,8 @@ services:
     image: xfox111/bonch-calendar-api:latest
     build:
       context: ./api
+    environment:
+      - ORIGIN_DOMAIN=localhost:8000
     ports:
       - 8080:8080
 

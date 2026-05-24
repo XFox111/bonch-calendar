@@ -11,6 +11,13 @@ namespace BonchCalendar.Services;
 
 public partial class ParsingService
 {
+	/// <summary>
+	/// Parse general timetable document.
+	/// </summary>
+	/// <param name="rawHtml">HTML document retrieved from the API.</param>
+	/// <param name="semesterStartDate"><see cref="DateTime"/> that represents the first day of current semester.</param>
+	/// <param name="groupName">Name of a group this timetable is for.</param>
+	/// <returns>An array of <see cref="CalendarEvent"/>s</returns>
 	public CalendarEvent[] ParseGeneralTimetable(string rawHtml, DateTime semesterStartDate, string groupName)
 	{
 		using IHtmlDocument doc = new HtmlParser().ParseDocument(rawHtml);
@@ -27,7 +34,7 @@ public partial class ParsingService
 			Match timeMatch = ParserUtils.TimeLabelRegex().Match(timeLabelText);
 			string number = timeMatch.Success ? timeMatch.Groups["number"].Value : timeLabelText;
 			(TimeSpan startTime, TimeSpan endTime) = !timeMatch.Success ?
-				ParserUtils.GetTimesFromLabel(timeLabelText) :
+				ParserUtils.GetTimesFromLabel(timeLabelText) : // If the label for some reason doesn't contain start and end time, we can infer it from class' number
 				(
 					TimeSpan.Parse(timeMatch.Groups["start"].Value),
 					TimeSpan.Parse(timeMatch.Groups["end"].Value)
@@ -44,16 +51,26 @@ public partial class ParsingService
 					.AddDays((week - 1) * 7)          // Move to the correct week
 					.AddDays(weekday - 1);            // Move to the correct weekday
 
-				classes.Add(GetEvent(
-					$"{number}. {className} ({classType})", auditorium,
-					GetDescription(groupName, professors, auditorium, weeks),
-					classDate, startTime, endTime));
+				classes.Add(CreateEvent(
+					title: $"{number}. {className} ({classType})",
+					location: auditorium,
+					description: CreateDescription(groupName, professors, auditorium, weeks),
+					date: classDate,
+					startTime,
+					endTime
+				));
 			}
 		}
 
 		return [.. classes];
 	}
 
+	/// <summary>
+	/// Parse exam timetable document.
+	/// </summary>
+	/// <param name="rawHtml">HTML document, retrieved from the API.</param>
+	/// <param name="groupName">Name of a group this timetable is for.</param>
+	/// <returns>An array of <see cref="CalendarEvent"/>s</returns>
 	public CalendarEvent[] ParseExamTimetable(string rawHtml, string groupName)
 	{
 		using IHtmlDocument doc = new HtmlParser().ParseDocument(rawHtml);
@@ -77,26 +94,32 @@ public partial class ParsingService
 			TimeSpan startTime = TimeSpan.Parse(timeMatch.Groups["start"].Value.Replace('.', ':'));
 			TimeSpan endTime = TimeSpan.Parse(timeMatch.Groups["end"].Value.Replace('.', ':'));
 
-			classes.Add(GetEvent(
-				$"{number}{className} ({classType})", auditorium,
-				GetDescription(groupName, professors, auditorium),
-				classDate, startTime, endTime));
+			classes.Add(CreateEvent(
+				title: $"{number}{className} ({classType})",
+				location: auditorium,
+				description: CreateDescription(groupName, professors, auditorium),
+				date: classDate,
+				startTime,
+				endTime
+			));
 		}
 
 		return [.. classes];
 	}
 
-	private static CalendarEvent GetEvent(string title, string auditorium, string description, DateTime date, TimeSpan startTime, TimeSpan endTime) =>
+	// Create a calendar event
+	private static CalendarEvent CreateEvent(string title, string location, string description, DateTime date, TimeSpan startTime, TimeSpan endTime) =>
 		new()
 		{
 			Summary = title,
 			Description = description,
 			Start = new CalDateTime(date.Add(startTime - TimeSpan.FromHours(3)).ToUniversalTime()),
 			End = new CalDateTime(date.Add(endTime - TimeSpan.FromHours(3)).ToUniversalTime()),
-			Location = auditorium
+			Location = location
 		};
 
-	private static string GetDescription(string groupName, string[] professors, string auditorium, int[]? weeks = null)
+	// Create event description
+	private static string CreateDescription(string groupName, string[] professors, string auditorium, int[]? weeks = null)
 	{
 		string str = $"""
 		Группа: {groupName}
@@ -107,22 +130,26 @@ public partial class ParsingService
 		if (weeks is not null && weeks.Length > 0)
 			str += $"\nНедели: {string.Join(", ", weeks)}";
 
+		// Attempt to recognize wing and room number
 		Match auditoriumMatch = ParserUtils.AuditoriumRegex().Match(auditorium);
 
 		if (!auditoriumMatch.Success)
 			auditoriumMatch = ParserUtils.AuditoriumAltRegex().Match(auditorium);
 
+		// If successful, we can add a nav.sut.ru map link
 		if (auditoriumMatch.Success)
 			str += "\n\n" + $"""
 			ГУТ.Навигатор:
 			https://nav.sut.ru/?cab=k{auditoriumMatch.Groups["wing"].Value}-{auditoriumMatch.Groups["room"].Value}
 			""";
 
+		// Some shameless self-promotion
 		str += "\n\n" + "Создано при помощи сервиса Бонч.Календарь: https://bonch.xfox111.net";
 
 		return str;
 	}
 
+	// Parse basic info for a class
 	private static (string className, string classType, string[] professors, string auditorium) ParseBaseInfo(IElement classElement)
 	{
 		string className = classElement.QuerySelector(".subect")?.TextContent ?? string.Empty;

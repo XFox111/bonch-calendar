@@ -3,6 +3,9 @@ using BonchCalendar.Health;
 
 namespace BonchCalendar;
 
+/// <summary>
+/// Custom JSON serializer context for static serialization/deserialization of requests and responses
+/// </summary>
 [JsonSerializable(typeof(string))]
 [JsonSerializable(typeof(string[]))]
 [JsonSerializable(typeof(int))]

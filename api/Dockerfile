@@ -5,7 +5,7 @@ ADD --link . .
 RUN --mount=type=cache,target=/root/.nuget \
 	--mount=type=cache,target=/source/bin \
 	--mount=type=cache,target=/source/obj \
-	dotnet publish --output /out /p:PublishAot=true BonchCalendar.csproj \
+	dotnet publish --output /out BonchCalendar.csproj \
 	&& rm /out/*.dbg /out/*.Development.json
 
 FROM mcr.microsoft.com/dotnet/runtime-deps:10.0-alpine AS prod
