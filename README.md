@@ -1,6 +1,7 @@
 [![Website status](https://img.shields.io/website?url=http%3A//bonch.xfox111.net/)](https://bonch.xfox111.net)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/xfox111/bonch-calendar)](https://github.com/xfox111/bonch-calendar/releases/latest)
 [![GitHub last commit](https://img.shields.io/github/last-commit/xfox111/bonch-calendar?label=Last+update)](https://github.com/XFox111/bonch-calendar/commits/main)
+[![Active users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.bonch.xfox111.net%2Fstats&query=%24.activeUsers&label=Active%20users)](https://bonch.xfox111.net)
 
 <picture>
 	<source media="(prefers-color-scheme: dark)" srcset="assets/dark.png">
