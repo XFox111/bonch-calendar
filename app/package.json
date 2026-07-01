@@ -10,26 +10,26 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"@fluentui/react-components": "^9.74.1",
-		"@fluentui/react-icons": "^2.0.328",
+		"@fluentui/react-components": "^9.74.3",
+		"@fluentui/react-icons": "^2.0.331",
 		"@fluentui/react-motion-components-preview": "^0.15.4",
 		"react": "^19.2.7",
 		"react-dom": "^19.2.7",
 		"react-localization": "^2.0.6",
-		"uuid": "^14.0.0"
+		"uuid": "^14.0.1"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
-		"@types/node": "^25.9.1",
+		"@types/node": "^26.0.1",
 		"@types/react": "^19.2.16",
 		"@types/react-dom": "^19.2.3",
-		"@vitejs/plugin-react": "^6.0.2",
-		"eslint": "^10.4.1",
+		"@vitejs/plugin-react": "^6.0.3",
+		"eslint": "^10.6.0",
 		"eslint-plugin-react-hooks": "^7.1.1",
-		"eslint-plugin-react-refresh": "^0.5.2",
-		"globals": "^17.6.0",
+		"eslint-plugin-react-refresh": "^0.5.3",
+		"globals": "^17.7.0",
 		"typescript": "~6.0.3",
-		"typescript-eslint": "^8.60.1",
-		"vite": "^8.0.16"
+		"typescript-eslint": "^8.62.1",
+		"vite": "^8.1.2"
 	}
 }
