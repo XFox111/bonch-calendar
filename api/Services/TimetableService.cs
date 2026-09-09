@@ -19,32 +19,37 @@ public class TimetableService(
 	/// </summary>
 	/// <param name="groupId">ID of a group to retrieve timetable for.</param>
 	/// <returns><c>null</c> if cache for this timetable is not present, or is older than 6 hours. Otherwise, timetable content in iCal format.</returns>
-	public async Task<string?> TryGetTimetableFromCacheAsync(int groupId)
+	public async Task<(Calendar? calendar, string? content)> TryGetTimetableFromCacheAsync(int groupId)
 	{
 		string cacheFile = GetCachePath(groupId);
 
 		if (!File.Exists(cacheFile) || (DateTime.UtcNow - File.GetLastWriteTimeUtc(cacheFile)).TotalHours >= 6)
-			return null;
+			return (null, null);
 
 		if (environment.IsDevelopment())
 		{
 			logger.LogWarning("Caching is disabled for development environment.");
-			return null;
+			return (null, null);
 		}
 
 		logger.LogInformation("Calendar for group {GroupId} is present in cache ({CacheFile}).", groupId, cacheFile);
 
-		return await File.ReadAllTextAsync(cacheFile);
+		string content = await File.ReadAllTextAsync(cacheFile);
+		Calendar? calendar = Calendar.Load(content);
+
+		return (calendar, content);
 	}
 
 	/// <summary>
 	/// Retrieve timetable for specified group from sut.ru API.
 	/// </summary>
-	/// <param name="saveToCache">If set to <c>true</c>, result timetable will be wirtten to cache for that group.</param>
-	/// <param name="transform">Action delegate that can be used to manipulate the result <see cref="Calendar"/> object, before converting it to iCal.</param>
+	/// <param name="facultyId">ID of a faculty this group belongs to.</param>
+	/// <param name="groupId">ID of a group to retrieve timetable for.</param>
 	/// <returns>A string that contains timetable in iCal format.</returns>
-	public async Task<string> GetTimetableAsync(int facultyId, int groupId, bool saveToCache = true, Action<Calendar>? transform = null)
+	public async Task<(Calendar calendar, string content)> GetTimetableAsync(int facultyId, int groupId)
 	{
+		logger.LogInformation("Begin generating timetable for {FacultyId}/{GroupId}.", facultyId, groupId);
+
 		// We need semester start date, since the regular timetable is represented on sut.ru semester week numbers.
 		DateTime semesterStartDate = await apiService.GetSemesterStartDateAsync(groupId);
 		string groupName = (await apiService.GetGroupsListAsync(facultyId, 0))[groupId];
@@ -69,19 +74,16 @@ public class TimetableService(
 		calendar.Properties.Add(new CalendarProperty("REFRESH-INTERVAL;VALUE=DURATION", "PT6H"));	// Specifies how often calendar client should poll for new timetable.
 		calendar.Events.AddRange(timetable);
 
-		transform?.Invoke(calendar);		// If transform delegate is not null, invoke it.
-
 		// Serialize calendar to iCal format.
 		string content = new CalendarSerializer().SerializeToString(calendar)!;
 
-		if (saveToCache)
-		{
-			string cacheFile = GetCachePath(groupId);
-			await File.WriteAllTextAsync(cacheFile, content);
-			logger.LogInformation("Cache updated: {CacheFile}", cacheFile);
-		}
+		string cacheFile = GetCachePath(groupId);
+		await File.WriteAllTextAsync(cacheFile, content);
+		logger.LogInformation("Cache updated: {CacheFile}", cacheFile);
 
-		return content;
+		logger.LogInformation("Fetched timetable for {FacultyId}/{GroupId}.", facultyId, groupId);
+
+		return (calendar, content);
 	}
 
 	private static string GetCachePath(int groupId) =>
