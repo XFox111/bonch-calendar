@@ -27,10 +27,7 @@ export async function tryFormatNamesForReport(report?: TimetableHealthResponseEn
 		{
 			const [facultyId, course] = faculty.split("/");
 
-			if (faculties?.[facultyId] === undefined)
-				facultiesFormatted.push(strings.formatString(strings.report_issue_groups_item_alt, facultyId, course) as string);
-
-			else
+			if (faculties?.[facultyId] !== undefined)
 				facultiesFormatted.push(strings.formatString(strings.report_issue_groups_item, faculties[facultyId], facultyId, course) as string);
 		}
 
@@ -48,12 +45,6 @@ export async function tryFormatNamesForReport(report?: TimetableHealthResponseEn
 
 			if (groups[facultyId]?.[groupId] !== undefined && faculties?.[facultyId] !== undefined)
 				groupsFormatted.push(`${groups[facultyId][groupId]} (${groupId}), ${faculties[facultyId]} (${facultyId})`);
-			else if (faculties?.[facultyId] !== undefined)
-				groupsFormatted.push(strings.formatString(strings.report_issue_timetable_item_alt1, groupId, faculties[facultyId], facultyId) as string)
-			else if (groups[facultyId]?.[groupId] !== undefined)
-				groupsFormatted.push(strings.formatString(strings.report_issue_timetable_item_alt2, groups[facultyId][groupId], groupId, facultyId) as string)
-			else
-				groupsFormatted.push(strings.formatString(strings.report_issue_timetable_item_alt3, groupId, facultyId) as string)
 		}
 
 	return {

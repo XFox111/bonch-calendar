@@ -49,7 +49,7 @@ export default function StatsView(): ReactElement
 				}
 				<Dialog>
 					<DialogTrigger>
-						{ health?.status === "healthy" ?
+						{ issueCounter === 0 ?
 							<Button icon={ <CheckmarkCircleFilled className={ cls.statusIconHealthy } /> } appearance="subtle">
 								{ strings.status_ok }
 							</Button>
