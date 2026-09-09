@@ -1,4 +1,4 @@
-import { FluentProvider, makeStyles, type Theme } from "@fluentui/react-components";
+import { FluentProvider, makeStyles, type Theme, Text } from "@fluentui/react-components";
 import { type ReactElement } from "react";
 import { useTheme } from "./hooks/useTheme";
 import MainView from "./views/MainView";
@@ -6,6 +6,7 @@ import FaqView from "./views/FaqView";
 import DedicatedView from "./views/DedicatedView";
 import FooterView from "./views/FooterView";
 import StatsView from "./views/StatsView";
+import strings from "./utils/strings";
 
 export default function App(): ReactElement
 {
@@ -18,6 +19,7 @@ export default function App(): ReactElement
 				<MainView />
 				<StatsView />
 				<FaqView />
+				<Text>{strings.disclaimer}</Text>
 				<DedicatedView />
 				<FooterView />
 			</main>

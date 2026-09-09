@@ -76,7 +76,9 @@ const strings = new LocalizedStrings({
 
 		// FooterView.tsx
 		footer_p1: "Made with ☕ and ❤️{0}by {1}",
-		footer_p2: "Eugene Fox"
+		footer_p2: "Eugene Fox",
+
+		disclaimer: "Bonch.Calendar project is not affiliated with or endorsed by Bonch-Bruevich Saint Petersburg State University of Telecommunications."
 	},
 	ru:
 	{
@@ -153,7 +155,9 @@ const strings = new LocalizedStrings({
 
 		// FooterView.tsx
 		footer_p1: "Сделано с ☕ и ❤️,{0}{1}",
-		footer_p2: "Евгений Лис"
+		footer_p2: "Евгений Лис",
+
+		disclaimer: "Проект Бонч.Календарь не связан и не одобрен Санкт-Петербургским государственным университетом телекоммуникаций им. проф. М. А. Бонч-Бруевича."
 	}
 });
 
