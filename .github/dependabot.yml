@@ -14,7 +14,7 @@ updates:
       interval: monthly
     rebase-strategy: disabled
     groups:
-      deps:
+      app:
         patterns:
           - "*"
         exclude-patterns:
@@ -22,7 +22,7 @@ updates:
           - "react-dom"
           - "@types/react"
           - "@types/react-dom"
-      react:
+      app-react:
         patterns:
           - "react"
           - "react-dom"
@@ -49,7 +49,7 @@ updates:
       interval: monthly
     rebase-strategy: disabled
     groups:
-      all:
+      api:
         patterns:
           - "*"
 
@@ -62,7 +62,7 @@ updates:
       interval: monthly
     rebase-strategy: disabled
     groups:
-      all:
+      github-actions:
         patterns:
           - "*"
 
@@ -75,7 +75,7 @@ updates:
       interval: monthly
     rebase-strategy: disabled
     groups:
-      all:
+      devcontainers:
         patterns:
           - "*"
 
@@ -90,6 +90,6 @@ updates:
       interval: monthly
     rebase-strategy: disabled
     groups:
-      all:
+      docker:
         patterns:
           - "*"
