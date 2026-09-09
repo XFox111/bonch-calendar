@@ -4,7 +4,7 @@ using BonchCalendar.Health;
 using BonchCalendar.Services;
 using BonchCalendar.Utils;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Mvc;
+using Scalar.AspNetCore;
 
 WebApplicationBuilder builder = WebApplication.CreateSlimBuilder(args);
 
@@ -64,7 +64,14 @@ WebApplication app = builder.Build();
 // Configure the HTTP request pipeline
 app.UseCors();                  // Enable CORS
 app.UseStatusCodePages();       // Enable default JSON response body for non-200 responses.
-app.MapOpenApi();               // Map OpenAPI sepcification. Available at /openapi/v1.json
+app.MapOpenApi(pattern: "/openapi.yaml");               // Map OpenAPI sepcification. Available at /openapi.yaml
+app.MapScalarApiReference(options =>
+	options
+		.WithOpenApiRoutePattern("/openapi.yaml")
+		.WithYamlDocumentDownload()
+		.HideDeveloperTools()
+		.DisableMcp()
+);
 
 // Map healthcheck endpoint with custom response writer
 // Remark: /health and /openapi/v1.json endpoints are not present in OpenAPI specification.

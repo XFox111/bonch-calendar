@@ -9,6 +9,9 @@ using Ical.Net.DataTypes;
 
 namespace BonchCalendar.Services;
 
+/// <summary>
+/// Service for parsing timetable documents retrieved from sut.ru API.
+/// </summary>
 public partial class ParsingService
 {
 	/// <summary>

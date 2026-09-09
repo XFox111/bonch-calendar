@@ -4,11 +4,19 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace BonchCalendar.Health;
 
+/// <summary>
+/// Custom healthcheck response writer for /health endpoint.
+/// </summary>
 public static class HealthCheckWriter
 {
 	private static readonly byte[] _emptyResponse = [ (byte)'{', (byte)'}' ];
 	private static readonly JsonSerializerContext _jsonContext = CreateSerializerContext();
 
+	/// <summary>
+	/// Writes a healthcheck response to the HTTP context. This method is used by the healthcheck middleware to write the response for the /health endpoint.
+	/// </summary>
+	/// <param name="context">The HTTP context.</param>
+	/// <param name="report">The healthcheck report.</param>
 	public static async Task WriteHealthCheckResponse(HttpContext context, HealthReport report)
 	{
 		if (report is null)

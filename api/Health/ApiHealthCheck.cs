@@ -8,6 +8,7 @@ namespace BonchCalendar.Health;
 /// </summary>
 public class ApiHealthCheck(IssueTrackingService trackingService) : IHealthCheck
 {
+	/// <inheritdoc />
 	public async Task<HealthCheckResult> CheckHealthAsync(
 		HealthCheckContext context, CancellationToken cancellationToken = default
 	)
