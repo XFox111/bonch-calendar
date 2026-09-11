@@ -9,7 +9,7 @@ namespace BonchCalendar.Health;
 /// </summary>
 public static class HealthCheckWriter
 {
-	private static readonly byte[] _emptyResponse = [ (byte)'{', (byte)'}' ];
+	private static readonly byte[] _emptyResponse = [(byte)'{', (byte)'}'];
 	private static readonly JsonSerializerContext _jsonContext = CreateSerializerContext();
 
 	/// <summary>

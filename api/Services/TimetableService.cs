@@ -71,7 +71,7 @@ public class TimetableService(
 		calendar.AddTimeZone(new VTimeZone("Europe/Moscow"));
 		calendar.Properties.Add(new CalendarProperty("X-WR-CALNAME", groupName));
 		calendar.Properties.Add(new CalendarProperty("X-WR-TIMEZONE", "Europe/Moscow"));
-		calendar.Properties.Add(new CalendarProperty("REFRESH-INTERVAL;VALUE=DURATION", "PT6H"));	// Specifies how often calendar client should poll for new timetable.
+		calendar.Properties.Add(new CalendarProperty("REFRESH-INTERVAL;VALUE=DURATION", "PT6H"));   // Specifies how often calendar client should poll for new timetable.
 		calendar.Events.AddRange(timetable);
 
 		// Serialize calendar to iCal format.

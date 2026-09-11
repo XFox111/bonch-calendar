@@ -132,7 +132,7 @@ public class ApiService
 			: 2;        // Everything else - second
 
 		int academicYearStartYear = now.Year - 2000;    // We need only last two digits (e.g. 25 for 2025)
-		// P.S. I am not a fun of this variable name either.
+														// P.S. I am not a fun of this variable name either.
 
 		if (now.Month < 8)      // Before August means we are in the second semester of the previous academic year
 			academicYearStartYear--;
