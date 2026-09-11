@@ -18,7 +18,7 @@ async function fetchApi<T>(path: string, defaultValue: T, alwaysReturnResponse: 
 {
 	try
 	{
-		const res = await fetch(new URL(path, import.meta.env.VITE_BACKEND_HOST), {
+		const res = await fetch(new URL(path, import.meta.env.VITE_BACKEND_HOST || "http://localhost:8080"), {
 			signal: AbortSignal.timeout(timeout)
 		});
 
