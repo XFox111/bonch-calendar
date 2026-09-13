@@ -86,7 +86,7 @@ public class ApiService
 
 		DateTime currentDate = DateTime.Today;
 		currentDate = currentDate
-			.AddDays(-(int)currentDate.DayOfWeek + 1) // Move to Monday
+			.AddDays(-(((int)currentDate.DayOfWeek + 6) % 7)) // Move to Monday
 			.AddDays(-7 * (weekNumber - 1));          // Move back to the first week
 
 		return currentDate;
