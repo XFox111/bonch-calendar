@@ -14,8 +14,8 @@
 		"@fluentui/react-components": "^9.74.9",
 		"@fluentui/react-icons": "^2.0.343",
 		"@fluentui/react-motion-components-preview": "^0.15.9",
-		"react": "^19.3.0",
-		"react-dom": "^19.3.0",
+		"react": "^19.3.1",
+		"react-dom": "^19.3.1",
 		"react-localization": "^2.1.0",
 		"uuid": "^14.0.2"
 	},
